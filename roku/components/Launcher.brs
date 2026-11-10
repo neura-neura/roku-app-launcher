@@ -36,7 +36,7 @@ sub refresh()
         m.task = invalid
     end if
     showRows([])
-    m.server.text = m.base
+    m.server.text = "LAN CATALOG"
     if m.base = ""
         m.status.text = "Set up the server to see your apps."
         return
@@ -92,14 +92,23 @@ end function
 sub showRows(entries as Object)
     m.entries = entries
     root = CreateObject("roSGNode", "ContentNode")
+    validIcon = CreateObject("roRegex", "^/icons/[A-Za-z0-9_-]+\.(png|jpg|jpeg)$", "i")
     for each app in entries
         row = root.CreateChild("ContentNode")
         row.title = app.title
+        row.description = UCase(Left(app.title.Trim(), 1))
+        if isText(app.icon)
+            if validIcon.IsMatch(app.icon) then row.HDPosterUrl = m.base + app.icon
+        end if
     end for
     row = root.CreateChild("ContentNode")
     row.title = "Refresh Catalog"
+    row.description = "R"
+    row.HDPosterUrl = "pkg:/images/refresh.png"
     row = root.CreateChild("ContentNode")
     row.title = "Configure Server"
+    row.description = "S"
+    row.HDPosterUrl = "pkg:/images/server.png"
     m.menu.content = root
     m.menu.jumpToItem = 0
     m.menu.SetFocus(true)

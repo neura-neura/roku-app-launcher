@@ -16,6 +16,8 @@ ROOT = Path(__file__).resolve().parent
 DIST = ROOT / "dist"
 SITE = DIST / "server"
 APPS = SITE / "apps"
+ICONS = SITE / "icons"
+ICON_PATH = re.compile(r"/icons/[A-Za-z0-9_-]+\.(?:png|jpe?g)", re.I)
 
 
 def write(path, data, private=False):
@@ -47,6 +49,15 @@ def module_entry(title, prefix, component, files):
     path = APPS / f"{ident}.zip"
     write(path, data)
     return {"title": title, "id": ident, "component": component, "path": f"/apps/{path.name}"}
+
+
+def add_icon(entry, name, data):
+    if not ICON_PATH.fullmatch("/icons/" + name):
+        raise ValueError("Invalid icon filename")
+    if len(data) > 2 * 1024 * 1024 or not data.startswith((b"\x89PNG\r\n\x1a\n", b"\xff\xd8\xff")):
+        raise ValueError(f"{name}: expected a PNG or JPEG under 2 MiB")
+    write(ICONS / name, data)
+    entry["icon"] = "/icons/" + name
 
 
 def change(text, old, new):
@@ -153,7 +164,14 @@ def add_libraries(directory, entries, reserved=()):
                 raise ValueError(f"{path.name}: invalid ZIP")
         write(APPS / path.name, data)
         taken.add(ident.lower())
-        entries.append({"title": title, "id": ident, "component": component, "path": f"/apps/{path.name}"})
+        entry = {"title": title, "id": ident, "component": component, "path": f"/apps/{path.name}"}
+        icon = item.get("icon")
+        if icon is not None:
+            if not isinstance(icon, str) or not ICON_PATH.fullmatch(icon):
+                raise ValueError(f"{ident}: invalid icon path")
+            local_icon = directory / icon.lstrip("/")
+            add_icon(entry, local_icon.name, local_icon.read_bytes())
+        entries.append(entry)
 
 
 def main():
@@ -165,6 +183,7 @@ def main():
     args = parser.parse_args()
 
     APPS.mkdir(parents=True, exist_ok=True)
+    ICONS.mkdir(parents=True, exist_ok=True)
     launcher = tree(ROOT / "roku")
     launcher["server.txt"] = args.server.encode()
     entries = []
@@ -176,13 +195,19 @@ def main():
         for name, content in tree(ROOT / "notices/noir").items():
             noir[name] = content
         entry = module_entry("Noir Syncplay", "noir", "NoirModule", noir)
+        add_icon(entry, "noir.png", (ROOT / "artwork/noir.png").read_bytes())
         entries.append(entry)
         launcher["noir-library.txt"] = entry["id"].encode()
         launcher["noir-defaults.json"] = json.dumps(settings).encode()
 
     if args.plus:
-        entries.append(module_entry("Roku Plus · JGL Customs", "rokuplus", "PlusModule", adapt_plus(args.plus)))
+        plus = adapt_plus(args.plus)
+        entry = module_entry("Roku Plus · JGL Customs", "rokuplus", "PlusModule", plus)
+        if "images/icon-fhd.png" in plus:
+            add_icon(entry, "rokuplus.png", plus["images/icon-fhd.png"])
+        entries.append(entry)
     demo = module_entry("Demo · Remote Library", "demo", "Start", tree(ROOT / "modules/demo"))
+    add_icon(demo, "demo.png", (ROOT / "artwork/demo.png").read_bytes())
     if args.libraries:
         add_libraries(args.libraries, entries, reserved=(demo["id"],))
     entries.append(demo)

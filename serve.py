@@ -7,7 +7,7 @@ from pathlib import Path
 import re
 
 SITE = Path(__file__).resolve().parent / "dist/server"
-ROUTE = re.compile(r"(?:/catalog\.json|/apps/[A-Za-z0-9_-]+\.zip)")
+ROUTE = re.compile(r"(?:/catalog\.json|/apps/[A-Za-z0-9_-]+\.zip|/icons/[A-Za-z0-9_-]+\.(?:png|jpe?g))", re.I)
 
 
 class Handler(SimpleHTTPRequestHandler):

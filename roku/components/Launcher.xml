@@ -7,14 +7,19 @@
     <script type="text/brightscript" uri="Launcher.brs"/>
     <children>
         <Group id="home">
-            <Rectangle width="1920" height="1080" color="#111827"/>
-            <Rectangle translation="[94,90]" width="70" height="8" color="#67E8C8"/>
-            <Label translation="[94,120]" width="1700" text="My Apps" font="font:LargeBoldSystemFont"/>
-            <Label id="status" translation="[94,209]" width="1720" height="55" color="#C2D1E8"/>
-            <Rectangle translation="[94,310]" width="1732" height="568" color="#1D293E"/>
-            <LabelList id="menu" translation="[126,342]" itemSize="[1630,70]" numRows="7" vertFocusAnimationStyle="floatingFocus"/>
-            <Label translation="[94,930]" width="1730" text="OK · Open       Back · Return       * · Server" color="#C2D1E8"/>
-            <Label id="server" translation="[94,978]" width="1730" color="#67E8C8"/>
+            <Rectangle width="1920" height="1080" color="#170F24"/>
+            <Rectangle width="336" height="1080" color="#231533"/>
+            <Poster translation="[72,85]" width="108" height="108" uri="pkg:/images/logo.png" loadDisplayMode="scaleToFit"/>
+            <Label translation="[78,217]" width="240" height="52" text="Roku App" font="font:MediumBoldSystemFont" color="#FFFFFF"/>
+            <Label translation="[78,263]" width="240" height="52" text="Launcher" font="font:MediumBoldSystemFont" color="#FFFFFF"/>
+            <Rectangle translation="[68,384]" width="4" height="47" color="#C5A0FF"/>
+            <Label translation="[87,384]" width="230" height="47" vertAlign="center" text="Home" font="font:SmallBoldSystemFont" color="#EFE1FF"/>
+            <Label id="server" translation="[78,914]" width="240" height="55" color="#BEA9D7"/>
+            <Label translation="[397,77]" width="1420" height="77" text="My Apps" font="font:LargeBoldSystemFont" color="#FFFFFF"/>
+            <Label id="status" translation="[400,154]" width="1410" height="48" color="#CBB7DF"/>
+            <MarkupGrid id="menu" translation="[396,230]" itemComponentName="AppTile" itemSize="[456,245]" itemSpacing="[22,24]" numColumns="3" numRows="2" vertFocusAnimationStyle="floatingFocus" drawFocusFeedback="false"/>
+            <Rectangle translation="[397,911]" width="1412" height="2" color="#422C57"/>
+            <Label translation="[398,931]" width="1410" height="50" text="OK · Open          Back · Return          * · Server" color="#D8C5EE"/>
         </Group>
         <Group id="moduleHost"/>
         <Timer id="libraryTimer" duration="30"/>

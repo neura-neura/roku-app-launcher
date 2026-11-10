@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="AppTile" extends="Group">
+    <interface>
+        <field id="itemContent" type="node" onChange="contentChanged"/>
+        <field id="itemHasFocus" type="boolean" onChange="focusChanged"/>
+    </interface>
+    <script type="text/brightscript" uri="AppTile.brs"/>
+    <children>
+        <Rectangle id="outline" width="456" height="245" color="#E0C9FF" visible="false"/>
+        <Rectangle id="surface" translation="[5,5]" width="446" height="235" color="#38254F"/>
+        <Rectangle id="nameBand" translation="[5,185]" width="446" height="55" color="#231833"/>
+        <Label id="initial" translation="[15,18]" width="426" height="156" horizAlign="center" vertAlign="center" font="font:LargeBoldSystemFont" color="#E6D2FF"/>
+        <Poster id="icon" translation="[18,22]" width="420" height="145" loadDisplayMode="scaleToFit" visible="false"/>
+        <Label id="name" translation="[14,186]" width="428" height="54" horizAlign="center" vertAlign="center" font="font:SmallBoldSystemFont" color="#F4EBFF"/>
+    </children>
+</component>
