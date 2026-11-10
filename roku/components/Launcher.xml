@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="Launcher" extends="Scene">
+    <interface>
+        <field id="transportCommand" type="assocarray" alwaysNotify="true" onChange="forwardTransport"/>
+        <field id="transportResponse" type="assocarray" alwaysNotify="true"/>
+    </interface>
+    <script type="text/brightscript" uri="Launcher.brs"/>
+    <children>
+        <Group id="home">
+            <Rectangle width="1920" height="1080" color="#111827"/>
+            <Rectangle translation="[94,90]" width="70" height="8" color="#67E8C8"/>
+            <Label translation="[94,120]" width="1700" text="My Apps" font="font:LargeBoldSystemFont"/>
+            <Label id="status" translation="[94,209]" width="1720" height="55" color="#C2D1E8"/>
+            <Rectangle translation="[94,310]" width="1732" height="568" color="#1D293E"/>
+            <LabelList id="menu" translation="[126,342]" itemSize="[1630,70]" numRows="7" vertFocusAnimationStyle="floatingFocus"/>
+            <Label translation="[94,930]" width="1730" text="OK · Open       Back · Return       * · Server" color="#C2D1E8"/>
+            <Label id="server" translation="[94,978]" width="1730" color="#67E8C8"/>
+        </Group>
+        <Group id="moduleHost"/>
+        <Timer id="libraryTimer" duration="30"/>
+    </children>
+</component>
